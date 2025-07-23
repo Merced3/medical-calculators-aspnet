@@ -1,0 +1,34 @@
+generate_structure.py
+LaceScoreCalc_Info.txt
+
+# Build results
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Azure
+.publish/
+
+# JetBrains Rider
+.idea/
+
+# ASP.NET lib folder (added by LibMan or manually)
+**/wwwroot/lib/
+
+# Dependency caches
+**/packages/
