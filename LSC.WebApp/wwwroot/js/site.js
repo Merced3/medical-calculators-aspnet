@@ -1,4 +1,12 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const infoModal = document.getElementById('infoModal');
+infoModal.addEventListener('show.bs.modal', function (event) {
+    const trigger = event.relatedTarget;
+    const title = trigger.getAttribute('data-title');
+    const body = trigger.getAttribute('data-body');
 
-// Write your JavaScript code.
+    const modalTitle = infoModal.querySelector('.modal-title');
+    const modalBody = infoModal.querySelector('.modal-body');
+
+    modalTitle.textContent = title;
+    modalBody.textContent = body;
+});
