@@ -1,10 +1,68 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "LACE Score Calculator";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">LACE Score Calculator</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="LengthOfStay" class="form-label">Length of Stay</label>
+            <select asp-for="LengthOfStay" class="form-select">
+                <option value="0">&lt; 1 day</option>
+                <option value="1">1 day</option>
+                <option value="2">2 days</option>
+                <option value="3">3 days</option>
+                <option value="4">4–6 days</option>
+                <option value="5">7–13 days</option>
+                <option value="7">14+ days</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Acute or Emergent Admission</label><br />
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="true" />
+                <label class="form-check-label">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="false" />
+                <label class="form-check-label">No</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ComorbidityScore" class="form-label">Comorbidity Category</label>
+            <select asp-for="ComorbidityScore" class="form-select">
+                <option value="0">None</option>
+                <option value="1">Mild (e.g. MI, PVD, uncomplicated diabetes)</option>
+                <option value="2">Moderate (e.g. CHF, COPD, mild liver disease)</option>
+                <option value="3">Dementia or connective tissue disease</option>
+                <option value="5">Severe (e.g. metastatic cancer, severe liver disease, HIV)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ERVisits" class="form-label">ER Visits (Past 6 Months)</label>
+            <select asp-for="ERVisits" class="form-select">
+                <option value="0">0</option>
+                <option value="1">1 visit</option>
+                <option value="2">2 visits</option>
+                <option value="3">3 visits</option>
+                <option value="4">4 or more</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calculate LACE Score</button>
+    </form>
+
+    @if (Model.TotalScore >= 0)
+    {
+        <div class="alert alert-info mt-4">
+            <h4>LACE Score: @Model.TotalScore</h4>
+            <p>Estimated Risk: <strong>@Model.RiskCategory</strong></p>
+        </div>
+    }
 </div>

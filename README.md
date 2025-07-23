@@ -2,6 +2,10 @@
 
 A web-based medical tool built with ASP.NET Core Razor Pages that calculates a patient’s LACE score to predict risk of hospital readmission or death within 30 days of discharge.
 
+## Preview
+
+![LACE Calculator Screenshot](docs/homepage.png)
+
 ## Features
 
 - Inputs for Length of Stay, Acute Admission, Comorbidities, ER Visits
@@ -26,6 +30,8 @@ dotnet run
 
 ```bash
 LaceScoreCalculator/
+├── docs/
+│   └── homepage.png
 ├── LSC.WebApp/
 │   ├── Pages/
 │   │   ├── Shared/
