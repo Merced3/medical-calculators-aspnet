@@ -4,7 +4,8 @@ A modular medical calculator web app built with ASP.NET Core Razor Pages. Initia
 
 ## Preview
 
-![LACE Calculator Screenshot](docs/homepage.png)
+![Home Page Screenshot](docs/homepage.png)
+![LACE Calculator Screenshot](docs/laceCalcPage.png)
 
 ## Features
 

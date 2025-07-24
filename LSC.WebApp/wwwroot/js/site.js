@@ -32,12 +32,41 @@ function updateLaceScore() {
     document.getElementById("scoreOutput").style.display = "block";
 }
 
-// Automatically bind updates on page load
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('select, input[type="radio"]').forEach(input => {
-        input.addEventListener('change', updateLaceScore);
-    });
+function updateMortalityScore() {
+    const chf = document.getElementById("CHF_Comorbid")?.checked ? 2 : 0;
+    const creatinine = document.getElementById("CreatinineHigh")?.checked ? 2 : 0;
+    const sex = parseInt(document.getElementById("Sex")?.value || 0);
+    const adl = parseInt(document.getElementById("ADLDependency")?.value || 0);
+    const cancer = parseInt(document.getElementById("CancerStatus")?.value || 0);
+    const albumin = parseInt(document.getElementById("AlbuminLevel")?.value || 0);
 
-    // Initial render
-    updateLaceScore();
+    const total = chf + creatinine + sex + adl + cancer + albumin;
+
+    let risk = "Unknown";
+    if (total <= 1) risk = "4–13%";
+    else if (total <= 3) risk = "19–20%";
+    else if (total <= 6) risk = "34–37%";
+    else if (total <= 20) risk = "64–68%";
+
+    const output = document.getElementById("scoreOutput");
+    output.innerHTML = `<h4>Total Score: ${total}</h4><p>1-Year Mortality Risk: <strong>${risk}</strong></p>`;
+    output.style.display = "block";
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+
+    if (path.includes("/LACE")) {
+        document.querySelectorAll('select, input[type="radio"]').forEach(input => {
+            input.addEventListener('change', updateLaceScore);
+        });
+        updateLaceScore();
+    }
+
+    if (path.includes("/Mortality")) {
+        document.querySelectorAll('select, input[type="radio"], input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', updateMortalityScore);
+        });
+        updateMortalityScore();
+    }
 });

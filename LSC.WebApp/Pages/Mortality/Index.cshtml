@@ -1,0 +1,123 @@
+﻿@page "/Mortality"
+@model LSC.WebApp.Pages.Mortality.IndexModel
+@{
+    ViewData["Title"] = "Mortality Rate Calculator";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Mortality Rate Calculator</h2>
+
+    <form method="post">
+
+        <div class="mb-3">
+            <div class="d-flex align-items-center mb-1">
+                <label class="form-label mb-0 me-1">Comorbid Conditions</label>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
+                    data-title="Comorbid Conditions"
+                    data-body="2 points = Comorbid congestive heart failure<br>2 points = Admit Creatinine >3 mg/dL">
+                    <i class="bi bi-info-circle text-primary" style="cursor: pointer;"></i>
+                </a>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CHF_Comorbid"/>
+                <label class="form-check-label" for="CHF_Comorbid">Comorbid congestive heart failure</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CreatinineHigh"/>
+                <label class="form-check-label" for="CreatinineHigh">Admit Creatinine >3 mg/dL</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Sex" class="form-label">
+                Sex
+                <a href="#" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoModal"
+                    data-title="Sex"
+                    data-body="0 Points = Female<br>1 point = Male">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select asp-for="Sex" class="form-select" id="Sex">
+                <option value="0">Female</option>
+                <option value="1">Male</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ADLDependency" class="form-label">
+                ADLs after discharge
+                <a href="#" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoModal"
+                    data-title="ADLs after discharge"
+                    data-body="2 Points = Dependent in 4 or less Activities of Daily Living.<br>5 Points = Totally dependent.">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select asp-for="ADLDependency" class="form-select" id="ADLDependency">
+                <option value="2">Dependent in 4 or less Activities of Daily Living</option>
+                <option value="5">Totally dependent</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CancerStatus" class="form-label">
+                Comorbid cancer
+                <a href="#" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoModal"
+                    data-title="Comorbid cancer"
+                    data-body="3 points = Solitary<br>8 points = Metastatic">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select asp-for="CancerStatus" class="form-select" id="CancerStatus"> 
+                <option value="3">Solitary</option>
+                <option value="8">Metastatic</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="AlbuminLevel" class="form-label">
+                Albumin Level
+                <a href="#" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoModal"
+                    data-title="Albumin"
+                    data-body="1 Point = 3–3.4 g/dL<br>2 Points = Less than 3 g/dL">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select asp-for="AlbuminLevel" class="form-select" id="AlbuminLevel">
+                <option value="1">3–3.4 g/dL</option>
+                <option value="2">&lt;3 g/dL</option>
+            </select>
+        </div>
+
+        <div id="scoreOutput" class="alert alert-info mt-4" style="display: none;"></div>
+
+        <a href="/Disclaimer" target="_blank" class="small text-muted mt-2 d-block">
+            Legal Notices and Disclaimer
+        </a>
+
+        <a href="https://pubmed.ncbi.nlm.nih.gov/11410097/" data-bs-toggle="modal" data-bs-target="#laceRefModal" class="small text-muted">
+            Study: 1-Year Mortality Index in Older Adults After Hospitalization
+        </a>
+    </form>
+</div>
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="infoModalBody">
+                Modal content goes here.
+            </div>
+        </div>
+    </div>
+</div>
