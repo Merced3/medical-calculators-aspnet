@@ -15,11 +15,18 @@
                     data-bs-toggle="modal" 
                     data-bs-target="#infoModal"
                     data-title="Length of Stay"
-                    data-body="Length of stay is calculated from hospital admission to discharge. Longer stays often reflect more severe conditions.">
+                    data-body="Length of stay is calculated from hospital admission to discharge. Longer stays often reflect more severe conditions.<br>
+                    &lt; 1 day = 0 points<br>
+                    1 day = 1 point<br>
+                    2 days = 2 points<br>
+                    3 days = 3 points<br>
+                    4–6 days = 4 points<br>
+                    7–13 days = 5 points<br>
+                    14+ days = 7 points">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="LengthOfStay" class="form-select">
+            <select asp-for="LengthOfStay" class="form-select" id="LengthOfStay">
                 <option value="0">&lt; 1 day</option>
                 <option value="1">1 day</option>
                 <option value="2">2 days</option>
@@ -37,17 +44,19 @@
                     data-bs-toggle="modal"
                     data-bs-target="#infoModal"
                     data-title="Acute or Emergent Admission"
-                    data-body="An acute or emergent admission is unplanned or urgent, often signaling greater medical instability. Adds 3 points to LACE score.">
+                    data-body="An acute or emergent admission is unplanned or urgent, often signaling greater medical instability.<br>
+                    'No' = 0 points<br>
+                    'Yes' = 3 points">
                     <i class="bi bi-info-circle text-primary" style="cursor: pointer;"></i>
                 </a>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="true" />
-                <label class="form-check-label">Yes</label>
+                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="true" id="AcuteAdmissionTrue" name="AcuteAdmission" />
+                <label class="form-check-label" for="AcuteAdmissionTrue">Yes</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="false" />
-                <label class="form-check-label">No</label>
+                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="false" id="AcuteAdmissionFalse" name="AcuteAdmission" />
+                <label class="form-check-label" for="AcuteAdmissionFalse">No</label>
             </div>
         </div>
 
@@ -58,11 +67,16 @@
                     data-bs-toggle="modal" 
                     data-bs-target="#infoModal"
                     data-title="Comorbidity Category"
-                    data-body="Choose based on the patient's most severe comorbidity. Severe conditions like metastatic cancer score highest. Refer to examples in dropdown.">
+                    data-body="Choose based on the patient's most severe comorbidity. Severe conditions like metastatic cancer score highest. Refer to examples in dropdown:<br>
+                    1 Point: History of MI, PVD, CVD, or uncomplicated diabetes.<br>
+                    2 Points: CHF, COPD, mild liver disease, or limited cancer.<br>
+                    3 Points: Dementia or connective tissue disease.<br>
+                    5 Points: Moderate or severe liver disease, HIV, or metastatic cancer.
+                    ">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="ComorbidityScore" class="form-select">
+            <select asp-for="ComorbidityScore" class="form-select" id="ComorbidityScore">
                 <option value="0">None</option>
                 <option value="1">History of MI, PVD, CVD, or uncomplicated diabetes</option>
                 <option value="2">CHF, COPD, mild liver disease, or limited cancer</option>
@@ -78,11 +92,15 @@
                     data-bs-toggle="modal" 
                     data-bs-target="#infoModal"
                     data-title="ER Visits"
-                    data-body="Frequent ER visits are a sign of poor health stability. 1 visit = 1 point, 4+ visits = 4 points.">
+                    data-body="Frequent ER visits are a sign of poor health stability.<br>
+                    1 point = 1 visit<br>
+                    2 points = 2 visits<br>
+                    3 points = 3 visits<br>
+                    4 points = 4 or more visits">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="ERVisits" class="form-select">
+            <select asp-for="ERVisits" class="form-select" id="ERVisits">
                 <option value="0">0</option>
                 <option value="1">1 visit</option>
                 <option value="2">2 visits</option>
@@ -91,7 +109,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Calculate LACE Score</button>
+        <div id="scoreOutput" class="alert alert-info mt-4" style="display: none;"></div>
 
         <a href="https://www.medcentral.com/calculators/disclaimer" target="_blank" class="small text-muted mt-2 d-block">
             Legal Notices and Disclaimer
@@ -101,14 +119,6 @@
             Learn about the LACE Study
         </a>
     </form>
-
-    @if (Model.TotalScore >= 0)
-    {
-        <div class="alert alert-info mt-4">
-            <h4>LACE Score: @Model.TotalScore</h4>
-            <p>Estimated Risk: <strong>@Model.RiskCategory</strong></p>
-        </div>
-    }
 </div>
 
 <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">

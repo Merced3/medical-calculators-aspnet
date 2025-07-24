@@ -32,3 +32,9 @@ Just `Index.cshtml` and `Index.cshtml.cs`. It was surprising how fast it came to
 - Because the form posts to itself, everything stays in one view and one class.
 
 ---
+
+## Why rename the project away from LACE?
+
+After delivering the LACE Score MVP in under a day, the stakeholders asked for more calculators (e.g., Mortality Rate, APACHE, etc.) to live in the same interface. The project evolved from a single-tool app to a modular calculator suite, so the repo and instructions were updated to reflect the broader scope.
+
+---

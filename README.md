@@ -1,6 +1,6 @@
-# LACE Score Calculator
+# Medical Calculators – ASP.NET Core Web App
 
-A web-based medical tool built with ASP.NET Core Razor Pages that calculates a patient’s LACE score to predict risk of hospital readmission or death within 30 days of discharge.
+A modular medical calculator web app built with ASP.NET Core Razor Pages. Initially launched with the **LACE Score**, the platform is expanding to support multiple medical risk calculators like **Mortality Risk**, **APACHE**, and more.
 
 ## Preview
 
@@ -34,6 +34,9 @@ LaceScoreCalculator/
 │   └── homepage.png
 ├── LSC.WebApp/
 │   ├── Pages/
+│   │   ├── LACE/
+│   │   │   ├── Index.cshtml
+│   │   │   └── Index.cshtml.cs
 │   │   ├── Shared/
 │   │   │   ├── _Layout.cshtml
 │   │   │   ├── _Layout.cshtml.css
