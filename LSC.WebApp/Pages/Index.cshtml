@@ -1,126 +1,19 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "LACE Score Calculator";
+    ViewData["Title"] = "Medical Calculators";
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">LACE Score Calculator</h2>
+    <h2 class="text-center mb-4">Calculators</h2>
 
-    <form method="post">
-        <div class="mb-3">
-            <label asp-for="LengthOfStay" class="form-label">
-                Length of Stay
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
-                    data-title="Length of Stay"
-                    data-body="Length of stay is calculated from hospital admission to discharge. Longer stays often reflect more severe conditions.">
-                    <i class="bi bi-info-circle ms-1"></i>
-                </a>
-            </label>
-            <select asp-for="LengthOfStay" class="form-select">
-                <option value="0">&lt; 1 day</option>
-                <option value="1">1 day</option>
-                <option value="2">2 days</option>
-                <option value="3">3 days</option>
-                <option value="4">4–6 days</option>
-                <option value="5">7–13 days</option>
-                <option value="7">14+ days</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <div class="d-flex align-items-center mb-1">
-                <label class="form-label mb-0 me-1">Acute or Emergent Admission</label>
-                <a href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#infoModal"
-                    data-title="Acute or Emergent Admission"
-                    data-body="An acute or emergent admission is unplanned or urgent, often signaling greater medical instability. Adds 3 points to LACE score.">
-                    <i class="bi bi-info-circle text-primary" style="cursor: pointer;"></i>
-                </a>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="true" />
-                <label class="form-check-label">Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="AcuteAdmission" value="false" />
-                <label class="form-check-label">No</label>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="ComorbidityScore" class="form-label">
-                Comorbidity Category
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
-                    data-title="Comorbidity Category"
-                    data-body="Choose based on the patient's most severe comorbidity. Severe conditions like metastatic cancer score highest. Refer to examples in dropdown.">
-                    <i class="bi bi-info-circle ms-1"></i>
-                </a>
-            </label>
-            <select asp-for="ComorbidityScore" class="form-select">
-                <option value="0">None</option>
-                <option value="1">Mild (e.g. MI, PVD, uncomplicated diabetes)</option>
-                <option value="2">Moderate (e.g. CHF, COPD, mild liver disease)</option>
-                <option value="3">Dementia or connective tissue disease</option>
-                <option value="5">Severe (e.g. metastatic cancer, severe liver disease, HIV)</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="ERVisits" class="form-label">
-                ER Visits (Past 6 Months)
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
-                    data-title="ER Visits"
-                    data-body="Frequent ER visits are a sign of poor health stability. 1 visit = 1 point, 4+ visits = 4 points.">
-                    <i class="bi bi-info-circle ms-1"></i>
-                </a>
-            </label>
-            <select asp-for="ERVisits" class="form-select">
-                <option value="0">0</option>
-                <option value="1">1 visit</option>
-                <option value="2">2 visits</option>
-                <option value="3">3 visits</option>
-                <option value="4">4 or more</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Calculate LACE Score</button>
-
-        <a href="https://www.medcentral.com/calculators/disclaimer" target="_blank" class="small text-muted mt-2 d-block">
-            Legal Notices and Disclaimer
+    <div class="list-group">
+        <a asp-page="/LACE/Index" class="list-group-item list-group-item-action">
+            LACE Score – Predict 30-Day Readmission Risk
         </a>
-
-        <a href="#" data-bs-toggle="modal" data-bs-target="#laceRefModal" class="small text-muted">
-            Learn about the LACE Study
+        <a asp-page="/Apgar/Index" class="list-group-item list-group-item-action disabled">
+            APGAR Score – Newborn Vitality (Coming Soon)
         </a>
-    </form>
-
-    @if (Model.TotalScore >= 0)
-    {
-        <div class="alert alert-info mt-4">
-            <h4>LACE Score: @Model.TotalScore</h4>
-            <p>Estimated Risk: <strong>@Model.RiskCategory</strong></p>
-        </div>
-    }
-</div>
-
-<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="infoModalLabel">Modal Title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="infoModalBody">
-                Modal content goes here.
-            </div>
-        </div>
+        <!-- Add more calculators here -->
     </div>
 </div>
