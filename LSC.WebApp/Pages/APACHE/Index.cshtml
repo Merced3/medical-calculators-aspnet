@@ -1,0 +1,687 @@
+﻿@page "/APACHE"
+@model LSC.WebApp.Pages.APACHE.IndexModel
+@{
+    ViewData["Title"] = "APACHE II";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">APACHE II Scoring System by Diagnosis</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="AdmitDx" class="form-label">
+                Admit Dx
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Admit Diagnosis"
+                    data-body="This dropdown captures the primary diagnosis upon ICU admission. It significantly influences the APACHE II mortality risk calculation by contributing to the Log Odds Ratio (Log OR).<br><br>
+                    Choose the diagnosis category that best reflects the patient’s presenting condition—whether medical, surgical, or trauma-related. Postoperative patients and nonoperative patients have separate scoring adjustments.">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="AdmitDx" name="AdmitDx">
+                <option disabled selected>-- Select Admit Diagnosis --</option>
+                <!--option disabled selected>▶ Nonoperative Patients:</option-->
+                <option disabled></option>
+                <option disabled>▶ Respiratory insufficiency from:</option>
+                <option value="-2.108">Asthma/allergy</option>
+                <option value="-0.367">COPD</option>
+                <option value="-0.251">Pulmonary edema (noncardio)</option>
+                <option value="-0.168">Postrespiratory arrest</option>
+                <option value="-0.142">Aspiration/poisoning/toxic</option>
+                <option value="-0.128">Pulmonary embolus</option>
+                <option value="0">Infection</option>
+                <option value="0.891">Neoplasm</option>
+                <option disabled></option>
+                <option disabled>▶ Cardiovascular insuff from:</option>
+                <option value="-1.798">Hypertension</option>
+                <option value="-1.368">Rhythm disturbance</option>
+                <option value="-0.424">Congestive heart failure</option>
+                <option value="0.493">Hemorrhagic shock/hypovol</option>
+                <option value="-0.191">Coronary artery disease</option>
+                <option value="0.113">Sepsis</option>
+                <option value="0.393">Postcardiac arrest</option>
+                <option value="-0.259">Cardiogenic shock</option>
+                <option value="0.731">Dissecting thor/abd aneurysm</option>
+                <option disabled></option>
+                <option disabled>▶ Trauma:</option>
+                <option value="-1.228">Multiple Trauma</option>
+                <option value="-0.517">Head Trauma</option>
+                <option disabled></option>
+                <option disabled>▶ Neurologic:</option>
+                <option value="-0.584">Seizure Disorder</option>
+                <option value="0.723">ICH/SDH/SAH</option>
+                <option disabled></option>
+                <option disabled>▶ Other:</option>
+                <option value="-3.353">Drug Overdose</option>
+                <option value="-1.507">Diabetic Ketoacidosis</option>
+                <option value="0.334">GI Bleeding</option>
+                <option disabled></option>
+                <option disabled>▶ If not above, Select System:</option>
+                <option value="-0.885">Metabolic/renal</option>
+                <option value="-0.890">Respiratory</option>
+                <option value="-0.759">Neurologic</option>
+                <option value="0.470">Cardiovascular</option>
+                <option value="0.501">Gastrointestinal</option>
+                <option disabled=""></option>
+                <option disabled>▶ Postoperative Patients:</option>
+                <option value="-1.684">Multiple Truama</option>
+                <option value="-1.376">Chronic Cardiovasc Disease</option>
+                <option value="-1.315">Peripheral Vascular Surgery</option>
+                <option value="-1.245">heart Valve Surgery</option>
+                <option value="-1.245">Craniotomy for Neoplasm</option>
+                <option value="-0.802">Renal Surgery For Neoplasm</option>
+                <option value="-1.042">Renal Trauma</option>
+                <option value="-0.802">Thoracic Surgery for Neoplasm</option>
+                <option value="-0.788">Craniotomy for ICH/SDH/SAH</option>
+                <option value="-0.699">Spinal Cord Surgery</option>
+                <option value="-0.682">Hemorrhagic Shock</option>
+                <option value="-0.617">GI Bleeding</option>
+                <option value="-0.248">GI Surgery For Neoplasm</option>
+                <option value="-0.140">Respiratory insuff Postop</option>
+                <option value="0.060">GI Perforation/obstruction</option>
+                <option disabled></option>
+                <option disabled>▶ If Not Above, Select System:</option>
+                <option value="-1.150">Neuorlogic</option>
+                <option value="-0.797">Cardiovascular</option>
+                <option value="-0.610">Respiratory</option>
+                <option value="-0.613">Gastrointestinal</option>
+                <option value="-0.196">Metabolic/Renal</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="RectalTemp" class="form-label">
+                Rectal Temperature
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Admit Diagnosis"
+                    data-body="Rectal temperature is a key vital sign in assessing illness severity. Both high fever and hypothermia increase the APACHE II score.<br><br>
+                    ≥41°C or ≤29°C = 4 points<br>
+                    39–40.9°C = 3 points<br>
+                    38.5–38.9°C = 1 point<br>
+                    36–38.4°C = 0 points (normal)<br>
+                    34–35.9°C = 1 point<br>
+                    32–33.9°C = 2 points<br>
+                    30–31.9°C = 3 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="RectalTemp" name="RectalTemp">
+                <option disabled selected>-- Select Rectal Temperature --</option>
+                <option value="4">≥41°C [105.8°F]</option>
+                <option value="3">39-40.9°C [102.2-105.7°F]</option>
+                <option value="1">38.5-38.9°C [101.3-102.1°F]</option>
+                <option value="0">36-38.4°C [96.8-101.2°F]</option>
+                <option value="1">43-35.9°C [93.2-96.7°F]</option>
+                <option value="2">32-33.9°C [89.6-93.1°F]</option>
+                <option value="3">30-31.9°C [85.9-89.5°F]</option>
+                <option value="4">≤29.0°C [85.8°F]</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="MAP" class="form-label">
+                Mean Arterial Pressure (MAP)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Mean Arterial Pressure (MAP)"
+                    data-body="Mean Arterial Pressure (MAP) is the average blood pressure in a patient's arteries during one cardiac cycle. It reflects overall perfusion and is crucial for identifying circulatory failure.<br><br>
+                    ≥160 mmHg = 4 points<br>
+                    130–159 mmHg = 3 points<br>
+                    110–129 mmHg = 2 points<br>
+                    70–109 mmHg = 0 points (normal)<br>
+                    50–69 mmHg = 2 points<br>
+                    ≤49 mmHg = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="MAP" name="MAP">
+                <option disabled selected>-- Select MAP --</option>
+                <option value="4">≥160 mmHg</option>
+                <option value="3">130–159 mmHg</option>
+                <option value="2">110–129 mmHg</option>
+                <option value="0">70–109 mmHg</option>
+                <option value="2">50–69 mmHg</option>
+                <option value="4">≤49 mmHg</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="HR" class="form-label">
+                Heart Rate (HR)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Heart Rate (HR)"
+                    data-body="Heart Rate (HR) is a core indicator of cardiovascular function. In the APACHE II system, both extremely high and low heart rates increase the score and reflect higher severity of illness.<br><br>
+                    ≥180 bpm = 4 points<br>
+                    140–179 bpm = 3 points<br>
+                    110–139 bpm = 2 points<br>
+                    70–109 bpm = 0 points (normal)<br>
+                    55–69 bpm = 2 points<br>
+                    40–54 bpm = 3 points<br>
+                    ≤39 bpm = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="HR" name="HR">
+                <option disabled selected>-- Select Heart Rate --</option>
+                <option value="4">≥180 Beats/Min</option>
+                <option value="3">140–179 Beats/Min</option>
+                <option value="2">110–139 Beats/Min</option>
+                <option value="0">70–109 Beats/Min</option>
+                <option value="2">55–69 Beats/Min</option>
+                <option value="3">40–54 Beats/Min</option>
+                <option value="4">≤39 Beats/Min</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="RR" class="form-label">
+                Respiratory Rate (RR)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Respiratory Rate (RR)"
+                    data-body="Respiratory Rate (RR) reflects a patient’s ability to ventilate and respond to metabolic stress. Abnormal respiratory rates indicate serious physiological compromise and increase the APACHE II score.<br><br>
+                    ≥50 breaths/min = 4 points<br>
+                    35–49 breaths/min = 3 points<br>
+                    25–34 breaths/min = 1 point<br>
+                    12–24 breaths/min = 0 points (normal)<br>
+                    10–11 breaths/min = 1 point<br>
+                    6–9 breaths/min = 2 points<br>
+                    ≤5 breaths/min = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="RR" name="RR">
+                <option disabled selected>-- Select Respiratory Rate --</option>
+                <option value="4">≥50 Breaths/Min</option>
+                <option value="3">35-49 Breaths/Min</option>
+                <option value="1">25-34 Breaths/Min</option>
+                <option value="0">12-24 Breaths/Min</option>
+                <option value="1">10-11 Breaths/Min</option>
+                <option value="2">6-9 Breaths/Min</option>
+                <option value="4">≤5 Breaths/Min</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Oxygenation" class="form-label">
+                Aa Gradient or PaO₂
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Oxygenation – A–a Gradient or PaO₂"
+                    data-body="APACHE II scoring uses two methods for evaluating oxygenation, based on the patient's FiO₂ (fraction of inspired oxygen):<br><br>
+                    <strong>If FiO₂ ≥ 0.50:</strong> score based on the alveolar-arterial (A–a) oxygen gradient.<br>
+                    <strong>If FiO₂ &lt; 0.50:</strong> score based on the arterial oxygen pressure (PaO₂).<br><br>
+                    Higher gradients or lower PaO₂ values indicate more severe respiratory compromise and increase the APACHE II score.">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Oxygenation" name="Oxygenation">
+                <option disabled selected>-- Select Oxygenation Status --</option>
+                <option disabled>▶ If FiO₂ ≥ 0.50 – A–a Gradient:</option>
+                <option value="4">A–a ≥500 mmHg</option>
+                <option value="3">A–a 350–499 mmHg</option>
+                <option value="2">A–a 200–349 mmHg</option>
+                <option value="0">A–a &lt; 200 mmHg</option>
+                <option disabled>▶ If FiO₂ &lt; 0.50 – PaO₂:</option>
+                <option value="4">PaO₂ &lt; 55 mmHg</option>
+                <option value="3">PaO₂ 55–60 mmHg</option>
+                <option value="1">PaO₂ 61–70 mmHg</option>
+                <option value="0">PaO₂ &gt; 70 mmHg</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="AcidBase" class="form-label">
+                pH or HCO₃
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Acid-Base Status – pH or HCO₃"
+                    data-body="This input reflects the patient's acid-base balance. Use arterial pH if an ABG (Arterial Blood Gas) is available. If not, use serum bicarbonate (HCO₃) instead.<br><br>
+                    <strong>If pH is available:</strong><br>
+                    ≥7.70 = 4 points<br>
+                    7.60–7.69 = 3 points<br>
+                    7.50–7.59 = 1 point<br>
+                    7.33–7.49 = 0 points (normal)<br>
+                    7.25–7.32 = 2 points<br>
+                    7.15–7.24 = 3 points<br>
+                    &lt;7.15 = 4 points<br><br>
+                    <strong>If ABG not available – use HCO₃:</strong><br>
+                    ≥52 = 4 points<br>
+                    41–51.9 = 3 points<br>
+                    32–40.9 = 1 point<br>
+                    22–31.9 = 0 points (normal)<br>
+                    18–21.9 = 2 points<br>
+                    15–17.9 = 3 points<br>
+                    &lt;15 = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="AcidBase" name="AcidBase">
+                <option disabled selected>-- Select Acid Base --</option>
+                <option disabled>▶ If ABG available – pH:</option>
+                <option value="4">pH ≥ 7.70</option>
+                <option value="3">pH 7.60–7.69</option>
+                <option value="1">pH 7.50–7.59</option>
+                <option value="0">pH 7.33–7.49</option>
+                <option value="2">pH 7.25–7.32</option>
+                <option value="3">pH 7.15–7.24</option>
+                <option value="4">pH &lt; 7.15</option>
+                <option disabled>▶ If ABG not available – HCO₃:</option>
+                <option value="4">HCO₃ ≥ 52 mEq/L</option>
+                <option value="3">HCO₃ 41–51.9 mEq/L</option>
+                <option value="1">HCO₃ 32–40.9 mEq/L</option>
+                <option value="0">HCO₃ 22–31.9 mEq/L</option>
+                <option value="2">HCO₃ 18–21.9 mEq/L</option>
+                <option value="3">HCO₃ 15–17.9 mEq/L</option>
+                <option value="4">HCO₃ &lt; 15 mEq/L</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Sodium" class="form-label">
+                Sodium (Na⁺)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Serum Sodium (Na⁺)"
+                    data-body="Serum sodium levels reflect the body’s fluid and electrolyte balance. Both high and low sodium levels are associated with increased risk of mortality in critically ill patients.<br><br>
+                    ≥180 mEq/L = 4 points<br>
+                    160–179 mEq/L = 3 points<br>
+                    155–159 mEq/L = 2 points<br>
+                    150–154 mEq/L = 1 point<br>
+                    130–149 mEq/L = 0 points (normal)<br>
+                    120–129 mEq/L = 2 points<br>
+                    111–119 mEq/L = 3 points<br>
+                    &lt;110 mEq/L = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Sodium" name="Sodium">
+                <option disabled selected>-- Select Sodium Level --</option>
+                <option value="4">≥ 180 mEq/L</option>
+                <option value="3">160–179 mEq/L</option>
+                <option value="2">155–159 mEq/L</option>
+                <option value="1">150–154 mEq/L</option>
+                <option value="0">130–149 mEq/L</option>
+                <option value="2">120–129 mEq/L</option>
+                <option value="3">111–119 mEq/L</option>
+                <option value="4">&lt;110 mEq/L</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Potassium" class="form-label">
+                Potassium (K⁺)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Serum Potassium (K⁺)"
+                    data-body="Serum potassium is a critical electrolyte for cardiac and neuromuscular function. Both hyperkalemia and hypokalemia are associated with life-threatening complications and contribute to APACHE II score.<br><br>
+                    ≥7.0 mEq/L = 4 points<br>
+                    6.0–6.9 mEq/L = 3 points<br>
+                    5.5–5.9 mEq/L = 1 point<br>
+                    3.5–5.4 mEq/L = 0 points (normal)<br>
+                    3.0–3.4 mEq/L = 1 point<br>
+                    2.5–2.9 mEq/L = 2 points<br>
+                    &lt;2.5 mEq/L = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Potassium" name="Potassium">
+                <option disabled selected>-- Select Serum Potassium Level --</option>
+                <option value="4">≥ 7.0 mEq/L</option>
+                <option value="3">6.0–6.9 mEq/L</option>
+                <option value="1">5.5–5.9 mEq/L</option>
+                <option value="0">3.5–5.4 mEq/L</option>
+                <option value="1">3.0–3.4 mEq/L</option>
+                <option value="2">2.5–2.9 mEq/L</option>
+                <option value="4">&lt;2.5 mEq/L</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Creatinine" class="form-label">
+                Creatinine (mg/dL)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Serum Creatinine (Cr) – Adjusted for ARF"
+                    data-body="Serum creatinine reflects kidney function and is a key component of APACHE II scoring. If the patient has Acute Renal Failure (ARF), the score is adjusted upward to reflect higher mortality risk.<br><br>
+                    <strong>Without ARF:</strong><br>
+                    ≥3.5 = 4 points<br>
+                    2.0–3.4 = 3 points<br>
+                    1.5–1.9 = 2 points<br>
+                    0.6–1.4 = 0 points (normal)<br>
+                    &lt;0.6 = 2 points<br><br>
+                    <strong>With ARF:</strong><br>
+                    ≥3.5 = 8 points<br>
+                    2.0–3.4 = 6 points<br>
+                    1.5–1.9 = 4 points<br>
+                    &lt;0.6 = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Creatinine" name="Creatinine">
+                <option disabled selected>-- Select Serum Creatinine Level --</option>
+                <option value="4">≥ 3.5 mg/dL</option>
+                <option value="8">≥ 3.5 mg/dL (in ARF)</option>
+                <option value="3">2.0–3.4 mg/dL</option>
+                <option value="6">2.0–3.4 mg/dL (in ARF)</option>
+                <option value="2">1.5–1.9 mg/dL</option>
+                <option value="4">1.5–1.9 mg/dL (in ARF)</option>
+                <option value="0">0.6–1.4 mg/dL</option>
+                <option value="2">&lt;0.6 mg/dL</option>
+                <option value="4">&lt;0.6 mg/dL (in ARF)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Hematocrit" class="form-label">
+                Hematocrit (Hct)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Hematocrit (Hct)"
+                    data-body="Hematocrit represents the percentage of red blood cells in blood volume. Low hematocrit can indicate anemia or blood loss, while high values may suggest dehydration or underlying disease. Both extremes are associated with increased risk in critical illness.<br><br>
+                    ≥60% = 4 points<br>
+                    50–59.9% = 2 points<br>
+                    46–49.9% = 1 point<br>
+                    30–45.9% = 0 points (normal)<br>
+                    20–29.9% = 2 points<br>
+                    &lt;20% = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Hematocrit" name="Hematocrit">
+                <option disabled selected>-- Select Hematocrit Level --</option>
+                <option value="4">≥ 60%</option>
+                <option value="2">50–59.9%</option>
+                <option value="1">46–49.9%</option>
+                <option value="0">30–45.9%</option>
+                <option value="2">20–29.9%</option>
+                <option value="4">&lt;20%</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="WBC" class="form-label">
+                White Blood Cell Count (WBC)
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="White Blood Cell Count (WBC)"
+                    data-body="White blood cell count reflects immune system status. High values suggest infection or inflammation, while low counts may indicate immunosuppression, bone marrow failure, or overwhelming sepsis. Both extremes raise the APACHE II score.<br><br>
+                    ≥40 ×10³/mm³ = 4 points<br>
+                    20–39.9 = 2 points<br>
+                    15–19.9 = 1 point<br>
+                    3–14.9 = 0 points (normal)<br>
+                    1–2.9 = 2 points<br>
+                    &lt;1 = 4 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="WBC" name="WBC">
+                <option disabled selected>-- Select WBC Level --</option>
+                <option value="4">≥ 40 ×10³ cells/mm³</option>
+                <option value="2">20–39.9 ×10³ cells/mm³</option>
+                <option value="1">15–19.9 ×10³ cells/mm³</option>
+                <option value="0">3–14.9 ×10³ cells/mm³</option>
+                <option value="2">1–2.9 ×10³ cells/mm³</option>
+                <option value="4">&lt;1 ×10³ cells/mm³</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Glasgow" class="form-label">
+                Glasgow
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Glasgow Coma Scale (GCS)"
+                    data-body="The Glasgow Coma Scale (GCS) assesses neurological function and consciousness. A lower score indicates deeper levels of unconsciousness or brain injury. APACHE II scoring uses the **inverse** of the GCS (15 – GCS) to assign points.<br><br>
+                    15 = 0 points<br>
+                    14 = 1 point<br>
+                    13 = 2 points<br>
+                    12 = 3 points<br>
+                    11 = 4 points<br>
+                    10 = 5 points<br>
+                    9 = 6 points<br>
+                    8 = 7 points<br>
+                    7 = 8 points<br>
+                    6 = 9 points<br>
+                    5 = 10 points<br>
+                    4 = 11 points<br>
+                    ≤3 = 12 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Glasgow" name="Glasgow">
+                <option disabled selected>-- Select GCS Total Score (3–15) --</option>
+                <option value="0">15</option>
+                <option value="1">14</option>
+                <option value="2">13</option>
+                <option value="3">12</option>
+                <option value="4">11</option>
+                <option value="5">10</option>
+                <option value="6">9</option>
+                <option value="7">8</option>
+                <option value="8">7</option>
+                <option value="9">6</option>
+                <option value="10">5</option>
+                <option value="11">4</option>
+                <option value="12">≤3</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Age" class="form-label">
+                Age
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Age Modifier"
+                    data-body="Older age is associated with increased mortality risk in critically ill patients. The APACHE II system adds points based on the patient's age:<br><br>
+                    ≥75 = 6 points<br>
+                    65–74 = 5 points<br>
+                    55–64 = 3 points<br>
+                    45–54 = 2 points<br>
+                    ≤44 = 0 points (baseline)">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="Age" name="Age">
+                <option disabled selected>-- Select Age Range --</option>
+                <option value="6">≥75 Years</option>
+                <option value="5">65-74 Years</option>
+                <option value="3">55-64 Years</option>
+                <option value="2">45-54 Years</option>
+                <option value="0">≤44 Years</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="ChronicDx" class="form-label">
+                Chronic Dx
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Chronic Health Conditions"
+                    data-body="Chronic health conditions increase the patient's risk of poor outcomes. APACHE II adds extra points if the patient has conditions such as severe liver disease, immunosuppression, or metastatic cancer **before** ICU admission.<br><br>
+                    • No chronic disease = 0 points<br>
+                    • Non-surgical with chronic disease = 5 points<br>
+                    • Emergency surgery + chronic disease = 5 points<br>
+                    • Elective surgery + chronic disease = 2 points">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+            <select class="form-select" id="ChronicDx" name="ChronicDx">
+                <option disabled selected>-- Select Chronic Health Condition --</option>
+                <option value="0">No</option>
+                <option value="5">Non-Surgical</option>
+                <option value="5">Emergent operation</option>
+                <option value="2">Elective operation</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label d-block">Post Emerg Surg
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="Post-Emergency Surgery"
+                    data-body="Check 'Yes' if the patient is being admitted following an emergency surgical procedure. This adds +0.603 to the mortality risk model. Leave unchecked for 'No'.">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </label>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="PostEmergSurg" id="PostEmergSurgYes" value="0.603">
+                <label class="form-check-label" for="PostEmergSurgYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="PostEmergSurg" id="PostEmergSurgNo" value="0" checked>
+                <label class="form-check-label" for="PostEmergSurgNo">No</label>
+            </div>
+        </div>
+
+        <div class="alert alert-info p-4 mt-4">
+            <h4 class="text-center mb-4">
+                Results
+                <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                    data-title="How Everything is Calculated"
+                    data-body="Equations Used:<br><br>
+                    <strong>Score</strong> = RectalTemp + MAP + HR + RR + AaGradientorPO2 + pHorHCO3 + Na + K + Creat + Hct + WBC + Glasgow + Age + ChronicDx<br>
+                    <strong>LogOR</strong> = -3.517 + (Score * 0.146) + PostEmergSurg + AdmitDx<br>
+                    <strong>OddsRatio</strong> = e(LogOR)<br>
+                    <strong>Mortality</strong> = 100 * OddsRatio / ( 1 + OddsRatio )">
+                    <i class="bi bi-info-circle ms-1"></i>
+                </a>
+            </h4>
+            
+            <div class="container text-center">
+                <!-- Score -->
+                <div class="col-md-2">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="form-label mb-1">Score</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="ScoreResult" class="form-control form-control-sm text-center" style="max-width: 80px;" readonly />
+                            <select class="form-select form-select-sm" style="width: 80px;" id="ScoreSelect">
+                                <option>#</option>
+                                <option>Count</option>
+                                <option>Index</option>
+                                <option>logit</option>
+                                <option>none</option>
+                                <option>Number</option>
+                                <option>Points</option>
+                                <option selected>Score</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Log OR -->
+                <div class="col-md-2">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="form-label mb-1">Log OR</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="LogOR" class="form-control form-control-sm text-center" style="max-width: 80px;" readonly />
+                            <select class="form-select form-select-sm" style="width: 80px;" id="LogORSelect">
+                                <option>#</option>
+                                <option>Count</option>
+                                <option>Index</option>
+                                <option>logit</option>
+                                <option>none</option>
+                                <option selected>Number</option>
+                                <option>Points</option>
+                                <option>Score</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Odds Ratio -->
+                <div class="col-md-2">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="form-label mb-1">Odds Ratio</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="OddsRatio" class="form-control form-control-sm text-center" style="width: 80px;" readonly />
+                            <select class="form-select form-select-sm" style="width: 80px;" id="OddsRatioSelect">
+                                <option>%</option>
+                                <option>Fraction</option>
+                                <option>Percent</option>
+                                <option>Rate</option>
+                                <option selected>Ratio</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mortality -->
+                <div class="col-md-2">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="form-label mb-1">Mortality</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="Mortality" class="form-control form-control-sm text-center" style="width: 80px;" readonly />
+                            <select class="form-select form-select-sm" style="width: 80px;" id="MortalitySelect">
+                                <option selected>%</option>
+                                <option>Fraction</option>
+                                <option>Percent</option>
+                                <option>Rate</option>
+                                <option>Ratio</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Decimal Precision only  -->
+                <div class="row justify-content-center">
+                    <div class="col-md-2">
+                        <div class="d-flex flex-column align-items-center">
+                            <label class="form-label mb-1">Decimal Precision</label>
+                            <select class="form-select form-select-sm" style="width: 100px;" id="DecPrecisionSelect">
+                                <option>0</option>
+                                <option>1</option>
+                                <option selected>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/Disclaimer" target="_blank" class="small text-muted mt-2 d-block">
+            Legal Notices and Disclaimer
+        </a>
+
+        <a href="https://pubmed.ncbi.nlm.nih.gov/3928249/" data-bs-toggle="modal" data-bs-target="#laceRefModal" class="small text-muted">
+            Learn about the LACE Study
+        </a>
+    </form>
+</div>
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="infoModalBody">
+                Modal content goes here.
+            </div>
+        </div>
+    </div>
+</div>
