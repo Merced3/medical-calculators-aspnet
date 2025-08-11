@@ -8,13 +8,18 @@
     <h2 class="text-center mb-4">Mortality Rate Calculator</h2>
 
     <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+        <!-- Comorbid Conditions (checkboxes, optional) -->
         <div class="mb-3">
             <div class="d-flex align-items-center mb-1">
                 <label class="form-label mb-0 me-1">Comorbid Conditions</label>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
                     data-title="Comorbid Conditions"
-                    data-body="2 points = Comorbid congestive heart failure<br>2 points = Admit Creatinine >3 mg/dL">
+                    data-body="Comorbid conditions capture major health issues that increase mortality risk. In this model, two are assessed:<br><br>
+                    • Comorbid congestive heart failure – 2 points<br>
+                    • Admit Creatinine >3 mg/dL – 2 points<br><br>
+                    These indicate severe cardiac or renal compromise.">
                     <i class="bi bi-info-circle text-primary" style="cursor: pointer;"></i>
                 </a>
             </div>
@@ -24,85 +29,121 @@
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" asp-for="CreatinineHigh"/>
-                <label class="form-check-label" for="CreatinineHigh">Admit Creatinine >3 mg/dL</label>
+                <label class="form-check-label" for="CreatinineHigh">Admit Creatinine &gt;3 mg/dL</label>
             </div>
         </div>
 
+        <!-- Sex -->
         <div class="mb-3">
             <label asp-for="Sex" class="form-label">
                 Sex
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
-                    data-title="Sex"
-                    data-body="0 Points = Female<br>1 point = Male">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
+                    data-title="Sex" 
+                    data-body="Sex is included as a risk factor based on observed mortality differences in the study cohort.<br><br>
+                    • Female – 0 points<br>
+                    • Male – 1 point<br><br>
+                    Male sex showed slightly higher mortality risk in the original data.">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="Sex" class="form-select" id="Sex">
+            <select asp-for="Sex"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Sex)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="Sex">
+                <option value="" selected disabled>-- Select Sex --</option>
                 <option value="0">Female</option>
                 <option value="1">Male</option>
             </select>
+            <span class="text-danger" asp-validation-for="Sex"></span>
         </div>
 
+        <!-- ADLs -->
         <div class="mb-3">
             <label asp-for="ADLDependency" class="form-label">
                 ADLs after discharge
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
+                <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
                     data-title="ADLs after discharge"
-                    data-body="2 Points = Dependent in 4 or less Activities of Daily Living.<br>5 Points = Totally dependent.">
+                    data-body="Activities of Daily Living (ADLs) reflect a patient’s independence in basic self-care. Greater dependency predicts worse outcomes.<br><br>
+                    • Dependent in 4 or fewer ADLs – 2 points<br>
+                    • Totally dependent – 5 points<br><br>
+                    This score is based on expected recovery and care needs.">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="ADLDependency" class="form-select" id="ADLDependency">
+            <select asp-for="ADLDependency" 
+                    class="form-select @(ViewData.ModelState[nameof(Model.ADLDependency)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="ADLDependency">
+                <option value="" disabled selected>-- Select ADL --</option>
                 <option value="2">Dependent in 4 or less Activities of Daily Living</option>
                 <option value="5">Totally dependent</option>
             </select>
+            <span class="text-danger" asp-validation-for="ADLDependency"></span>
         </div>
 
+        <!-- Cancer -->
         <div class="mb-3">
             <label asp-for="CancerStatus" class="form-label">
                 Comorbid cancer
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
-                    data-title="Comorbid cancer"
-                    data-body="3 points = Solitary<br>8 points = Metastatic">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
+                    data-title="Comorbid Cancer"
+                    data-body="The presence and extent of cancer affects survival after discharge.<br><br>
+                    • Solitary cancer – 3 points<br>
+                    • Metastatic cancer – 8 points<br><br>
+                    Metastatic disease greatly increases mortality risk.">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="CancerStatus" class="form-select" id="CancerStatus"> 
+            <select asp-for="CancerStatus"
+                    class="form-select @(ViewData.ModelState[nameof(Model.CancerStatus)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="CancerStatus">
+                <option value="" disabled selected>-- Select Comorbid Cancer --</option>
                 <option value="3">Solitary</option>
                 <option value="8">Metastatic</option>
             </select>
+            <span class="text-danger" asp-validation-for="CancerStatus"></span>
         </div>
 
+        <!-- Albumin -->
         <div class="mb-3">
             <label asp-for="AlbuminLevel" class="form-label">
                 Albumin Level
-                <a href="#" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#infoModal"
+                <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal"
                     data-title="Albumin"
-                    data-body="1 Point = 3–3.4 g/dL<br>2 Points = Less than 3 g/dL">
+                    data-body="Serum albumin reflects nutritional status and systemic health. Low levels are linked to higher mortality.<br><br>
+                    • 3–3.4 g/dL – 1 point<br>
+                    • <3 g/dL – 2 points<br><br>
+                    Hypoalbuminemia often indicates chronic illness or inflammation.">
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select asp-for="AlbuminLevel" class="form-select" id="AlbuminLevel">
+            <select asp-for="AlbuminLevel"
+                    class="form-select @(ViewData.ModelState[nameof(Model.AlbuminLevel)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="AlbuminLevel">
+                <option value="" selected disabled>-- Select Level --</option>
                 <option value="1">3–3.4 g/dL</option>
                 <option value="2">&lt;3 g/dL</option>
             </select>
+            <span class="text-danger" asp-validation-for="AlbuminLevel"></span>
         </div>
 
-        <div id="scoreOutput" class="alert alert-info mt-4" style="display: none;"></div>
+        <!-- Calculate button -->
+        <button type="submit" class="btn btn-primary">Calculate</button>
 
+        <!-- Server-rendered results -->
+        @if (Model.TotalScore >= 0 && Model.ModelState.IsValid)
+        {
+            <div id="scoreOutput" class="alert alert-info mt-4">
+                <h4>Total Score: @Model.TotalScore</h4>
+                <p>1-Year Mortality Risk: <strong>@Model.RiskCategory</strong></p>
+            </div>
+        }
+
+        <hr class="mt-4" />
+        
         <a href="/Disclaimer" target="_blank" class="small text-muted mt-2 d-block">
             Legal Notices and Disclaimer
         </a>
 
-        <a href="https://pubmed.ncbi.nlm.nih.gov/11410097/" data-bs-toggle="modal" data-bs-target="#laceRefModal" class="small text-muted">
+        <a href="https://pubmed.ncbi.nlm.nih.gov/11410097/" target="_blank" class="small text-muted">
             Study: 1-Year Mortality Index in Older Adults After Hospitalization
         </a>
     </form>
@@ -121,3 +162,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
