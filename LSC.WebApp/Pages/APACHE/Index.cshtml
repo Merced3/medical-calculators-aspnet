@@ -8,8 +8,11 @@
     <h2 class="text-center mb-4">APACHE II Scoring System by Diagnosis</h2>
 
     <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <!-- Admit Dx -->
         <div class="mb-3">
-            <label for="AdmitDx" class="form-label">
+            <label asp-for="AdmitDx" class="form-label">
                 Admit Dx
                 <a href="#"
                     data-bs-toggle="modal"
@@ -20,7 +23,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="AdmitDx" name="AdmitDx">
+            <select asp-for="AdmitDx" 
+                    class="form-select @(ViewData.ModelState[nameof(Model.AdmitDx)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="AdmitDx">
                 <option disabled selected>-- Select Admit Diagnosis --</option>
                 <!--option disabled selected>▶ Nonoperative Patients:</option-->
                 <option disabled></option>
@@ -89,15 +94,17 @@
                 <option value="-0.613">Gastrointestinal</option>
                 <option value="-0.196">Metabolic/Renal</option>
             </select>
+            <span class="text-danger" asp-validation-for="AdmitDx"></span>
         </div>
 
+        <!-- Rectal Temperature -->
         <div class="mb-3">
-            <label for="RectalTemp" class="form-label">
+            <label asp-for="RectalTemp" class="form-label">
                 Rectal Temperature
                 <a href="#"
                     data-bs-toggle="modal"
                     data-bs-target="#infoModal"
-                    data-title="Admit Diagnosis"
+                    data-title="Rectal Temperature"
                     data-body="Rectal temperature is a key vital sign in assessing illness severity. Both high fever and hypothermia increase the APACHE II score.<br><br>
                     ≥41°C or ≤29°C = 4 points<br>
                     39–40.9°C = 3 points<br>
@@ -109,7 +116,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="RectalTemp" name="RectalTemp">
+            <select asp-for="RectalTemp"
+                    class="form-select @(ViewData.ModelState[nameof(Model.RectalTemp)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="RectalTemp">
                 <option disabled selected>-- Select Rectal Temperature --</option>
                 <option value="4">≥41°C [105.8°F]</option>
                 <option value="3">39-40.9°C [102.2-105.7°F]</option>
@@ -120,10 +129,12 @@
                 <option value="3">30-31.9°C [85.9-89.5°F]</option>
                 <option value="4">≤29.0°C [85.8°F]</option>
             </select>
+            <span class="text-danger" asp-validation-for="RectalTemp"></span>
         </div>
 
+        <!-- Mean Arterial Pressure (MAP) -->
         <div class="mb-3">
-            <label for="MAP" class="form-label">
+            <label asp-for="MAP" class="form-label">
                 Mean Arterial Pressure (MAP)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -139,7 +150,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="MAP" name="MAP">
+            <select asp-for="MAP"
+                    class="form-select @(ViewData.ModelState[nameof(Model.MAP)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="MAP">
                 <option disabled selected>-- Select MAP --</option>
                 <option value="4">≥160 mmHg</option>
                 <option value="3">130–159 mmHg</option>
@@ -148,10 +161,12 @@
                 <option value="2">50–69 mmHg</option>
                 <option value="4">≤49 mmHg</option>
             </select>
+            <span class="text-danger" asp-validation-for="MAP"></span>
         </div>
 
+        <!-- Heart Rate (HR) -->
         <div class="mb-3">
-            <label for="HR" class="form-label">
+            <label asp-for="HR" class="form-label">
                 Heart Rate (HR)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -168,7 +183,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="HR" name="HR">
+            <select asp-for="HR"
+                    class="form-select @(ViewData.ModelState[nameof(Model.HR)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="HR">
                 <option disabled selected>-- Select Heart Rate --</option>
                 <option value="4">≥180 Beats/Min</option>
                 <option value="3">140–179 Beats/Min</option>
@@ -178,10 +195,12 @@
                 <option value="3">40–54 Beats/Min</option>
                 <option value="4">≤39 Beats/Min</option>
             </select>
+            <span class="text-danger" asp-validation-for="HR"></span>
         </div>
 
+        <!-- Respiratory Rate (RR) -->
         <div class="mb-3">
-            <label for="RR" class="form-label">
+            <label asp-for="RR" class="form-label">
                 Respiratory Rate (RR)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -198,7 +217,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="RR" name="RR">
+            <select asp-for="RR"
+                    class="form-select @(ViewData.ModelState[nameof(Model.RR)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="RR">
                 <option disabled selected>-- Select Respiratory Rate --</option>
                 <option value="4">≥50 Breaths/Min</option>
                 <option value="3">35-49 Breaths/Min</option>
@@ -208,10 +229,12 @@
                 <option value="2">6-9 Breaths/Min</option>
                 <option value="4">≤5 Breaths/Min</option>
             </select>
+            <span class="text-danger" asp-validation-for="RR"></span>
         </div>
 
+        <!-- A–a Gradient or PaO₂ – Oxygenation -->
         <div class="mb-3">
-            <label for="Oxygenation" class="form-label">
+            <label asp-for="Oxygenation" class="form-label">
                 Aa Gradient or PaO₂
                 <a href="#"
                     data-bs-toggle="modal"
@@ -224,7 +247,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Oxygenation" name="Oxygenation">
+            <select asp-for="Oxygenation"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Oxygenation)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="Oxygenation">
                 <option disabled selected>-- Select Oxygenation Status --</option>
                 <option disabled>▶ If FiO₂ ≥ 0.50 – A–a Gradient:</option>
                 <option value="4">A–a ≥500 mmHg</option>
@@ -237,10 +262,12 @@
                 <option value="1">PaO₂ 61–70 mmHg</option>
                 <option value="0">PaO₂ &gt; 70 mmHg</option>
             </select>
+            <span class="text-danger" asp-validation-for="Oxygenation"></span>
         </div>
 
+        <!-- pH or HCO₃ – Acid-Base Status -->
         <div class="mb-3">
-            <label for="AcidBase" class="form-label">
+            <label asp-for="AcidBase" class="form-label">
                 pH or HCO₃
                 <a href="#"
                     data-bs-toggle="modal"
@@ -266,7 +293,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="AcidBase" name="AcidBase">
+            <select asp-for="AcidBase"
+                    class="form-select @(ViewData.ModelState[nameof(Model.AcidBase)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="AcidBase">
                 <option disabled selected>-- Select Acid Base --</option>
                 <option disabled>▶ If ABG available – pH:</option>
                 <option value="4">pH ≥ 7.70</option>
@@ -285,10 +314,12 @@
                 <option value="3">HCO₃ 15–17.9 mEq/L</option>
                 <option value="4">HCO₃ &lt; 15 mEq/L</option>
             </select>
+            <span class="text-danger" asp-validation-for="AcidBase"></span>
         </div>
 
+        <!-- Sodium (Na⁺) -->
         <div class="mb-3">
-            <label for="Sodium" class="form-label">
+            <label asp-for="Sodium" class="form-label">
                 Sodium (Na⁺)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -306,7 +337,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Sodium" name="Sodium">
+            <select asp-for="Sodium"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Sodium)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="Sodium">
                 <option disabled selected>-- Select Sodium Level --</option>
                 <option value="4">≥ 180 mEq/L</option>
                 <option value="3">160–179 mEq/L</option>
@@ -317,10 +350,12 @@
                 <option value="3">111–119 mEq/L</option>
                 <option value="4">&lt;110 mEq/L</option>
             </select>
+            <span class="text-danger" asp-validation-for="Sodium"></span>
         </div>
 
+        <!-- Potassium (K⁺) -->
         <div class="mb-3">
-            <label for="Potassium" class="form-label">
+            <label asp-for="Potassium" class="form-label">
                 Potassium (K⁺)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -337,7 +372,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Potassium" name="Potassium">
+            <select asp-for="Potassium"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Potassium)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="Potassium">
                 <option disabled selected>-- Select Serum Potassium Level --</option>
                 <option value="4">≥ 7.0 mEq/L</option>
                 <option value="3">6.0–6.9 mEq/L</option>
@@ -347,10 +384,12 @@
                 <option value="2">2.5–2.9 mEq/L</option>
                 <option value="4">&lt;2.5 mEq/L</option>
             </select>
+            <span class="text-danger" asp-validation-for="Potassium"></span>
         </div>
 
+        <!-- Creatinine (mg/dL) -->
         <div class="mb-3">
-            <label for="Creatinine" class="form-label">
+            <label asp-for="Creatinine" class="form-label">
                 Creatinine (mg/dL)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -371,7 +410,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Creatinine" name="Creatinine">
+            <select asp-for="Creatinine"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Creatinine)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="Creatinine">
                 <option disabled selected>-- Select Serum Creatinine Level --</option>
                 <option value="4">≥ 3.5 mg/dL</option>
                 <option value="8">≥ 3.5 mg/dL (in ARF)</option>
@@ -383,10 +424,12 @@
                 <option value="2">&lt;0.6 mg/dL</option>
                 <option value="4">&lt;0.6 mg/dL (in ARF)</option>
             </select>
+            <span class="text-danger" asp-validation-for="Creatinine"></span>
         </div>
 
+        <!-- Hematocrit (Hct) -->
         <div class="mb-3">
-            <label for="Hematocrit" class="form-label">
+            <label asp-for="Hematocrit" class="form-label">
                 Hematocrit (Hct)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -402,7 +445,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Hematocrit" name="Hematocrit">
+            <select asp-for="Hematocrit"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Hematocrit)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="Hematocrit">
                 <option disabled selected>-- Select Hematocrit Level --</option>
                 <option value="4">≥ 60%</option>
                 <option value="2">50–59.9%</option>
@@ -411,10 +456,12 @@
                 <option value="2">20–29.9%</option>
                 <option value="4">&lt;20%</option>
             </select>
+            <span class="text-danger" asp-validation-for="Hematocrit"></span>
         </div>
 
+        <!-- White Blood Cell Count (WBC) -->
         <div class="mb-3">
-            <label for="WBC" class="form-label">
+            <label asp-for="WBC" class="form-label">
                 White Blood Cell Count (WBC)
                 <a href="#"
                     data-bs-toggle="modal"
@@ -430,7 +477,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="WBC" name="WBC">
+            <select asp-for="WBC"
+                    class="form-select @(ViewData.ModelState[nameof(Model.WBC)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="WBC">
                 <option disabled selected>-- Select WBC Level --</option>
                 <option value="4">≥ 40 ×10³ cells/mm³</option>
                 <option value="2">20–39.9 ×10³ cells/mm³</option>
@@ -439,10 +488,12 @@
                 <option value="2">1–2.9 ×10³ cells/mm³</option>
                 <option value="4">&lt;1 ×10³ cells/mm³</option>
             </select>
+            <span class="text-danger" asp-validation-for="WBC"></span>
         </div>
 
+        <!-- Glasgow -->
         <div class="mb-3">
-            <label for="Glasgow" class="form-label">
+            <label asp-for="Glasgow" class="form-label">
                 Glasgow
                 <a href="#"
                     data-bs-toggle="modal"
@@ -465,7 +516,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Glasgow" name="Glasgow">
+            <select asp-for="Glasgow"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Glasgow)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="Glasgow">
                 <option disabled selected>-- Select GCS Total Score (3–15) --</option>
                 <option value="0">15</option>
                 <option value="1">14</option>
@@ -481,10 +534,12 @@
                 <option value="11">4</option>
                 <option value="12">≤3</option>
             </select>
+            <span class="text-danger" asp-validation-for="Glasgow"></span>
         </div>
 
+        <!-- Age -->
         <div class="mb-3">
-            <label for="Age" class="form-label">
+            <label asp-for="Age" class="form-label">
                 Age
                 <a href="#"
                     data-bs-toggle="modal"
@@ -499,7 +554,9 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="Age" name="Age">
+            <select asp-for="Age"
+                    class="form-select @(ViewData.ModelState[nameof(Model.Age)]?.Errors.Count > 0 ? "is-invalid" : "")"
+                    id="Age">
                 <option disabled selected>-- Select Age Range --</option>
                 <option value="6">≥75 Years</option>
                 <option value="5">65-74 Years</option>
@@ -507,10 +564,12 @@
                 <option value="2">45-54 Years</option>
                 <option value="0">≤44 Years</option>
             </select>
+            <span class="text-danger" asp-validation-for="Age"></span>
         </div>
 
+        <!-- Chronic Dx -->
         <div class="mb-3">
-            <label for="ChronicDx" class="form-label">
+            <label asp-for="ChronicDx" class="form-label">
                 Chronic Dx
                 <a href="#"
                     data-bs-toggle="modal"
@@ -524,15 +583,19 @@
                     <i class="bi bi-info-circle ms-1"></i>
                 </a>
             </label>
-            <select class="form-select" id="ChronicDx" name="ChronicDx">
+            <select asp-for="ChronicDx"
+                    class="form-select @(ViewData.ModelState[nameof(Model.ChronicDx)]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                    id="ChronicDx">
                 <option disabled selected>-- Select Chronic Health Condition --</option>
                 <option value="0">No</option>
                 <option value="5">Non-Surgical</option>
                 <option value="5">Emergent operation</option>
                 <option value="2">Elective operation</option>
             </select>
+            <span class="text-danger" asp-validation-for="ChronicDx"></span>
         </div>
 
+        <!-- Post Emerg Surg -->
         <div class="mb-3">
             <label class="form-label d-block">Post Emerg Surg
                 <a href="#"
@@ -545,16 +608,19 @@
             </label>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="PostEmergSurg" id="PostEmergSurgYes" value="0.603">
+                <input class="form-check-input" type="radio" asp-for="PostEmergSurg" id="PostEmergSurgYes" value="0.603">
                 <label class="form-check-label" for="PostEmergSurgYes">Yes</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="PostEmergSurg" id="PostEmergSurgNo" value="0" checked>
+                <input class="form-check-input" type="radio" asp-for="PostEmergSurg" id="PostEmergSurgNo" value="0">
                 <label class="form-check-label" for="PostEmergSurgNo">No</label>
             </div>
+            <span class="text-danger" asp-validation-for="PostEmergSurg"></span>
         </div>
 
+        <!-- Results Pannel -->
         <div class="alert alert-info p-4 mt-4">
+            <!-- 'Results' Title -->
             <h4 class="text-center mb-4">
                 Results
                 <a href="#"
@@ -570,105 +636,116 @@
                 </a>
             </h4>
             
-            <div class="container text-center">
-                <!-- Score -->
-                <div class="col-md-2">
-                    <div class="d-flex flex-column align-items-center">
-                        <label class="form-label mb-1">Score</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="ScoreResult" class="form-control form-control-sm text-center" style="max-width: 80px;" readonly />
-                            <select class="form-select form-select-sm" style="width: 80px;" id="ScoreSelect">
-                                <option>#</option>
-                                <option>Count</option>
-                                <option>Index</option>
-                                <option>logit</option>
-                                <option>none</option>
-                                <option>Number</option>
-                                <option>Points</option>
-                                <option selected>Score</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Log OR -->
-                <div class="col-md-2">
-                    <div class="d-flex flex-column align-items-center">
-                        <label class="form-label mb-1">Log OR</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="LogOR" class="form-control form-control-sm text-center" style="max-width: 80px;" readonly />
-                            <select class="form-select form-select-sm" style="width: 80px;" id="LogORSelect">
-                                <option>#</option>
-                                <option>Count</option>
-                                <option>Index</option>
-                                <option>logit</option>
-                                <option>none</option>
-                                <option selected>Number</option>
-                                <option>Points</option>
-                                <option>Score</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Odds Ratio -->
-                <div class="col-md-2">
-                    <div class="d-flex flex-column align-items-center">
-                        <label class="form-label mb-1">Odds Ratio</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="OddsRatio" class="form-control form-control-sm text-center" style="width: 80px;" readonly />
-                            <select class="form-select form-select-sm" style="width: 80px;" id="OddsRatioSelect">
-                                <option>%</option>
-                                <option>Fraction</option>
-                                <option>Percent</option>
-                                <option>Rate</option>
-                                <option selected>Ratio</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mortality -->
-                <div class="col-md-2">
-                    <div class="d-flex flex-column align-items-center">
-                        <label class="form-label mb-1">Mortality</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="Mortality" class="form-control form-control-sm text-center" style="width: 80px;" readonly />
-                            <select class="form-select form-select-sm" style="width: 80px;" id="MortalitySelect">
-                                <option selected>%</option>
-                                <option>Fraction</option>
-                                <option>Percent</option>
-                                <option>Rate</option>
-                                <option>Ratio</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 2: Decimal Precision only  -->
-                <div class="row justify-content-center">
-                    <div class="col-md-2">
+            <div class="container">
+                <!-- Row 1: Score / Log OR / Odds Ratio / Mortality -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 text-center">
+                    
+                    <!-- Score -->
+                    <div class="col">
                         <div class="d-flex flex-column align-items-center">
-                            <label class="form-label mb-1">Decimal Precision</label>
-                            <select class="form-select form-select-sm" style="width: 100px;" id="DecPrecisionSelect">
-                                <option>0</option>
-                                <option>1</option>
-                                <option selected>2</option>
-                                <option>3</option>
-                            </select>
+                            <label class="form-label mb-1">Score</label>
+                            <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
+                                <input type="text" id="ScoreResult" class="form-control form-control-sm text-center" style="width: 80px;"
+                                        readonly value="@(Model.Score.HasValue ? Model.Score.Value.ToString() : string.Empty)" />
+                                <select class="form-select form-select-sm" style="width: 80px;" id="ScoreSelect">
+                                    <option>#</option>
+                                    <option>Count</option>
+                                    <option>Index</option>
+                                    <option>logit</option>
+                                    <option>none</option>
+                                    <option>Number</option>
+                                    <option>Points</option>
+                                    <option selected>Score</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Log OR -->
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-center">
+                            <label class="form-label mb-1">Log OR</label>
+                            <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
+                                <input type="text" id="LogOR" class="form-control form-control-sm text-center" style="width: 80px;"
+                                        readonly value="@(Model.LogOR.HasValue ? Model.LogOR.Value.ToString("0.##") : string.Empty)" />
+                                <select class="form-select form-select-sm" style="width: 80px;" id="LogORSelect">
+                                        <option>#</option>
+                                        <option>Count</option>
+                                        <option>Index</option>
+                                        <option>logit</option>
+                                        <option>none</option>
+                                        <option selected>Number</option>
+                                        <option>Points</option>
+                                        <option>Score</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Odds Ratio -->
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-center">
+                            <label class="form-label mb-1">Odds Ratio</label>
+                            <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
+                                <input type="text" id="OddsRatio" class="form-control form-control-sm text-center" style="width: 80px;"
+                                        readonly value="@(Model.OddsRatio.HasValue ? Model.OddsRatio.Value.ToString("0.##") : string.Empty)" />
+                                <select class="form-select form-select-sm" style="width: 80px;" id="OddsRatioSelect">
+                                    <option>%</option>
+                                    <option>Fraction</option>
+                                    <option>Percent</option>
+                                    <option>Rate</option>
+                                    <option selected>Ratio</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mortality -->
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-center">
+                            <label class="form-label mb-1">Mortality</label>
+                            <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
+                                <input type="text" id="Mortality" class="form-control form-control-sm text-center" style="width: 80px;"
+                                        readonly value="@(Model.Mortality.HasValue ? Model.Mortality.Value.ToString("0.##") + "%" : string.Empty)" />
+                                <select class="form-select form-select-sm" style="width: 80px;" id="MortalitySelect">
+                                    <option selected>%</option>
+                                    <option>Fraction</option>
+                                    <option>Percent</option>
+                                    <option>Rate</option>
+                                    <option>Ratio</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+                
+            <!-- Row 2: Decimal Precision -->
+            <div class="row justify-content-center mt-3">
+                <div class="col-auto text-center">
+                    <label class="form-label mb-1">Decimal Precision</label>
+                    <select class="form-select form-select-sm mx-auto" style="width: 100px;" id="DecPrecisionSelect">
+                        <option>0</option>
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                    </select>
+                </div>
+            </div>            
+            
+
+            <!-- Row 3: Calculate Button centered -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary" asp-page-handler="Calculate">Calculate</button>
+                </div>
+            </div>
         </div>
 
-        <a href="/Disclaimer" target="_blank" class="small text-muted mt-2 d-block">
-            Legal Notices and Disclaimer
-        </a>
+        <hr class="mt-4" />
 
-        <a href="https://pubmed.ncbi.nlm.nih.gov/3928249/" data-bs-toggle="modal" data-bs-target="#laceRefModal" class="small text-muted">
-            Learn about the LACE Study
-        </a>
+        <!-- You can put legal notices/disclaimers here OR a link the the study... whatever works for you -->
     </form>
 </div>
 
