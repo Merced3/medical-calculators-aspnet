@@ -646,17 +646,7 @@
                             <label class="form-label mb-1">Score</label>
                             <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
                                 <input type="text" id="ScoreResult" class="form-control form-control-sm text-center" style="width: 80px;"
-                                        readonly value="@(Model.Score.HasValue ? Model.Score.Value.ToString() : string.Empty)" />
-                                <select class="form-select form-select-sm" style="width: 80px;" id="ScoreSelect">
-                                    <option>#</option>
-                                    <option>Count</option>
-                                    <option>Index</option>
-                                    <option>logit</option>
-                                    <option>none</option>
-                                    <option>Number</option>
-                                    <option>Points</option>
-                                    <option selected>Score</option>
-                                </select>
+                                        readonly value="@(Model.ScoreText ?? string.Empty)" />
                             </div>
                         </div>
                     </div>
@@ -668,17 +658,7 @@
                             <label class="form-label mb-1">Log OR</label>
                             <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
                                 <input type="text" id="LogOR" class="form-control form-control-sm text-center" style="width: 80px;"
-                                        readonly value="@(Model.LogOR.HasValue ? Model.LogOR.Value.ToString("0.##") : string.Empty)" />
-                                <select class="form-select form-select-sm" style="width: 80px;" id="LogORSelect">
-                                        <option>#</option>
-                                        <option>Count</option>
-                                        <option>Index</option>
-                                        <option>logit</option>
-                                        <option>none</option>
-                                        <option selected>Number</option>
-                                        <option>Points</option>
-                                        <option>Score</option>
-                                </select>
+                                        readonly value="@(Model.LogORText ?? string.Empty)" />
                             </div>
                         </div>
                     </div>
@@ -689,13 +669,12 @@
                             <label class="form-label mb-1">Odds Ratio</label>
                             <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
                                 <input type="text" id="OddsRatio" class="form-control form-control-sm text-center" style="width: 80px;"
-                                        readonly value="@(Model.OddsRatio.HasValue ? Model.OddsRatio.Value.ToString("0.##") : string.Empty)" />
-                                <select class="form-select form-select-sm" style="width: 80px;" id="OddsRatioSelect">
-                                    <option>%</option>
-                                    <option>Fraction</option>
-                                    <option>Percent</option>
-                                    <option>Rate</option>
-                                    <option selected>Ratio</option>
+                                        readonly value="@(Model.OddsText ?? string.Empty)" />
+                                <select asp-for="OddsDisplay" class="form-select form-select-sm" style="width: 80px;" id="OddsRatioSelect">
+                                    <option value="Ratio">Ratio</option>
+                                    <option value="Percent">Percent</option>
+                                    <option value="Fraction">Fraction</option>
+                                    <option value="Rate">Rate</option>
                                 </select>
                             </div>
                         </div>
@@ -707,13 +686,12 @@
                             <label class="form-label mb-1">Mortality</label>
                             <div class="d-flex align-items-center gap-2 justify-content-center" style="width:200px;margin:0 auto;">
                                 <input type="text" id="Mortality" class="form-control form-control-sm text-center" style="width: 80px;"
-                                        readonly value="@(Model.Mortality.HasValue ? Model.Mortality.Value.ToString("0.##") + "%" : string.Empty)" />
-                                <select class="form-select form-select-sm" style="width: 80px;" id="MortalitySelect">
-                                    <option selected>%</option>
-                                    <option>Fraction</option>
-                                    <option>Percent</option>
-                                    <option>Rate</option>
-                                    <option>Ratio</option>
+                                        readonly value="@(Model.MortalityText ?? string.Empty)" />
+                                <select asp-for="MortalityDisplay" class="form-select form-select-sm" style="width: 80px;" id="MortalitySelect">
+                                    <option value="Percent">%</option>
+                                    <option value="Fraction">Fraction</option>
+                                    <option value="Ratio">Ratio</option>
+                                    <option value="Rate">Rate</option>
                                 </select>
                             </div>
                         </div>
@@ -725,11 +703,12 @@
             <div class="row justify-content-center mt-3">
                 <div class="col-auto text-center">
                     <label class="form-label mb-1">Decimal Precision</label>
-                    <select class="form-select form-select-sm mx-auto" style="width: 100px;" id="DecPrecisionSelect">
+                    <select asp-for="DecimalPrecision" class="form-select form-select-sm mx-auto" style="width: 100px;" id="DecPrecisionSelect">
                         <option>0</option>
                         <option>1</option>
                         <option selected>2</option>
                         <option>3</option>
+                        <option>4</option>
                     </select>
                 </div>
             </div>            

@@ -91,15 +91,33 @@ public class IndexModel : PageModel
     [Required(ErrorMessage = "Please Select an Option.")]
     public double? PostEmergSurg { get; set; }
 
+    // ===== Form Outputs =====
+
     public bool ShowResults { get; private set; }
     public string? ErrorMessage { get; private set; }
 
-    // Computed outputs
+    // Raw computed outputs (numeric)
     public int? Score { get; private set; }
     public double? LogOR { get; private set; }
     public double? OddsRatio { get; private set; }
     public double? Mortality { get; private set; }
 
+    // Enums for display formatting
+    public enum OddsFormat { Ratio, Percent, Fraction, Rate }
+    public enum MortalityFormat { Percent, Fraction, Ratio, Rate }
+
+    // User-selected display options
+    [BindProperty] public OddsFormat OddsDisplay { get; set; } = OddsFormat.Ratio;
+    [BindProperty] public MortalityFormat MortalityDisplay { get; set; } = MortalityFormat.Percent;
+    [BindProperty] public int DecimalPrecision { get; set; } = 2;
+
+    // Formatted outputs (strings) for rendering in the UI
+    public string? ScoreText { get; private set; }
+    public string? LogORText { get; private set; }
+    public string? OddsText { get; private set; }
+    public string? MortalityText { get; private set; }
+
+    // ===== Form Submission Handler =====
     public IActionResult OnPostCalculate()
     {
         if (!ModelState.IsValid)
@@ -109,21 +127,56 @@ public class IndexModel : PageModel
             return Page();
         }
 
-        // 1. Compute Score
+        // 1) Compute base numbers
         Score = (RectalTemp ?? 0) + (MAP ?? 0) + (HR ?? 0) + (RR ?? 0) +
                 (Oxygenation ?? 0) + (AcidBase ?? 0) + (Sodium ?? 0) +
                 (Potassium ?? 0) + (Creatinine ?? 0) + (Hematocrit ?? 0) +
                 (WBC ?? 0) + (Glasgow ?? 0) + (Age ?? 0) + (ChronicDx ?? 0);
 
-        // 2. Add AdmitDx and PostEmergSurg into log odds
+        // 1.2 Add AdmitDx and PostEmergSurg into log odds
         double admitDxVal = AdmitDx ?? 0;
         double postSurgVal = PostEmergSurg ?? 0;
 
         LogOR = -3.517 + ((Score ?? 0) * 0.146) + postSurgVal + admitDxVal;
 
-        // 3. Odds ratio & Mortality
+        // 1.3 Odds ratio & Mortality
         OddsRatio = Math.Exp(LogOR.Value);
         Mortality = 100 * OddsRatio / (1 + OddsRatio);
+
+        // 2) Format according to user selections
+        var dp = Math.Clamp(DecimalPrecision, 0, 6);
+
+        ScoreText = Score?.ToString();
+        LogORText = LogOR?.ToString($"F{dp}");
+
+        if (OddsRatio.HasValue)
+        {
+            var or = OddsRatio.Value;
+            OddsText = OddsDisplay switch
+            {
+                OddsFormat.Ratio    => or.ToString($"F{dp}"),
+                OddsFormat.Percent  => (or * 100).ToString($"F{dp}") + "%",
+                OddsFormat.Fraction => $"{Math.Round(or, dp)}:1",
+                OddsFormat.Rate     => (or / (1 + or)).ToString($"F{dp}"),
+                _ => or.ToString($"F{dp}")
+            };
+        }
+
+        if (Mortality.HasValue)
+        {
+            var mPct = Mortality.Value;     // 0..100
+            var p    = mPct / 100.0;        // 0..1
+            var odds = p / (1 - p);         // odds = p/(1-p)
+
+            MortalityText = MortalityDisplay switch
+            {
+                MortalityFormat.Percent  => mPct.ToString($"F{dp}") + "%",
+                MortalityFormat.Fraction => p.ToString($"F{dp}"),
+                MortalityFormat.Ratio    => $"{Math.Round(odds, dp)}:1",
+                MortalityFormat.Rate     => p.ToString($"F{dp}"),
+                _ => mPct.ToString($"F{dp}") + "%"
+            };
+        }
 
         ShowResults = true;
         return Page();
